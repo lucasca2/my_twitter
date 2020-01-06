@@ -1,9 +1,13 @@
 import React from 'react';
+import styles from '/styles';
 
 // Components
 import MainView from "/components/MainView";
 import Header from "/components/Header";
-import Text from "../../components/Text";
+import Text from "/components/Text";
+
+// Static
+import LogoSmall from '/static/Icons/LogoSmall';
 
 export default function Home({
   navigation
@@ -12,7 +16,9 @@ export default function Home({
     <MainView
       topComponent={() => (
         <Header
-          title={"Lucas Amaral"}
+          leftComponent={() => (
+            <LogoSmall height={40} width={225} fill={styles.colors.default.secondary}/>
+          )}
           rightIcon={"menu"}
           rightIconAction={navigation.toggleDrawer}
         />
