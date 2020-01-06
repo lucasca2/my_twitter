@@ -9,7 +9,7 @@ const fonts = {
     ultraLarge: 18,
   },
   weights: {
-    regular: css`font-family: 'Poppins';`,
+    regular: css`font-family: 'Poppins-Regular';`,
     medium: css`font-family: 'Poppins-Medium';`,
     bold: css`font-family: 'Poppins-Bold';`
   }

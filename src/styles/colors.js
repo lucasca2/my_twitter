@@ -5,7 +5,7 @@ const defaultColors = {
     blackLighten: '#696969',
     black: '#545454',
     blackDarken: '#383838',
-    primary: '#E3495A',
+    primary: '#2AA3EF',
     secondary: '#FFFFFF',
     success: '#56BD8D',
     dangerLight: '#FBE4E6',
