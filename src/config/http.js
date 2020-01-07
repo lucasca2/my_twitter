@@ -7,6 +7,9 @@ const API_URL = 'https://api.twitter.com/1.1/';
 
 export const HTTP = axios.create({
   baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  },
   paramsSerializer: params => qs.stringify({
     ...params
   }),
@@ -17,11 +20,14 @@ const token = { key: '1214307281501736960-HsVtEvM3XkqTwVszkY9FALFezrm75T', secre
 
 HTTP.interceptors.request.use(config => {
   try {
+
     const request_data = {
       url: `${config.baseURL}${config.url}`,
       method: config.method,
       data: config.data
     };
+
+    config.data = qs.stringify(config.data);
 
     const oauth = OAuth({
       consumer,

@@ -1,14 +1,36 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
 
 // Components
 import MainView from '/components/MainView';
-import Header from "../../components/Header";
+import Header from "/components/Header";
+import Button from "/components/Button";
+import Text from "/components/Text";
+
+// Styles
+import {
+  TextArea
+} from './styles';
+
+// Services
+import userService from '/services/user';
+import Row from "../../components/Row";
 
 export default function SendTweet({
   navigation
 }) {
-return (
+  const [status, setStatus] = useState(null);
+
+  async function handleSendTweet() {
+    if(status) {
+      try {
+        await userService.sendTweet({ status })
+      } catch (err) {
+        alert('Error sending Tweet')
+      }
+    }
+  }
+
+  return (
     <MainView
       topComponent={() => (
         <Header
@@ -19,10 +41,29 @@ return (
           leftIconAction={navigation.goBack}
         />
       )}
+
+      bottomComponent={() => (
+        <Button
+          color={"success"}
+          text={"Send Tweet"}
+          onPress={handleSendTweet}
+        />
+      )}
     >
-      <Text>
-        Send Tweet Page
+      <Text weight={"medium"} fontSize={"small"}>
+        Compose new tweet
       </Text>
+      <TextArea
+        maxLength={280}
+        value={status}
+        onChangeText={setStatus}
+        placeholder={"What's happening?"}
+      />
+      <Row align={"end"}>
+        <Text weight={"medium"} fontSize={"small"} color={status?.length === 280 ? "danger" : status?.length > 250 ? "warning" : "text"}>
+          {status?.length || 0}/280
+        </Text>
+      </Row>
     </MainView>
   )
 }

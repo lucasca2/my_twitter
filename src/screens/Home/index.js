@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '/styles';
 
 // Components
@@ -6,20 +6,34 @@ import MainView from "/components/MainView";
 import Header from "/components/Header";
 import Text from "/components/Text";
 
+import Timeline from "./components/Timeline";
+
 // Static
 import LogoSmall from '/static/Icons/LogoSmall';
 
-import { HTTP } from "../../config/http";
+import userService from "/services/user";
 
 export default function Home({
   navigation
 }) {
-  HTTP.get('account/settings.json?includes_entities=true').then(res => {
-    console.tron(res);
-  }).catch(err => console.tron(err));
+  const [tweets, setTweets] = useState(null);
+
+  useEffect(() => {
+    async function fetchTimeLine() {
+      alert(1);
+      if(!tweets) {
+        // const timeline = await userService.getTimeline();
+        //
+        // setTweets(timeline);
+      }
+    }
+
+    fetchTimeLine();
+  }, []);
 
   return (
     <MainView
+      noScroll={true}
       topComponent={() => (
         <Header
           leftComponent={() => (
@@ -30,9 +44,7 @@ export default function Home({
         />
       )}
     >
-      <Text>
-        Home Page
-      </Text>
+      <Timeline tweets={tweets} />
     </MainView>
   )
 }

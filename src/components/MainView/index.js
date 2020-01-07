@@ -1,5 +1,5 @@
 import React from 'react';
-import { KeyboardAvoidingView, SafeAreaView, StatusBar } from 'react-native';
+import { KeyboardAvoidingView, SafeAreaView, StatusBar, View, ScrollView } from 'react-native';
 
 // Styles
 import styles from '/styles';
@@ -40,6 +40,7 @@ function MainView({
           <StatusBarColor color={statusBarColor}/>
           {topComponent && topComponent()}
           <WrapperScroll
+            as={noScroll ? View : ScrollView }
             contentContainerStyle={{
               width: '100%',
               alignSelf: 'center',
