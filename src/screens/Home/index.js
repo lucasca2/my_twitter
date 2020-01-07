@@ -9,9 +9,15 @@ import Text from "/components/Text";
 // Static
 import LogoSmall from '/static/Icons/LogoSmall';
 
+import { HTTP } from "../../config/http";
+
 export default function Home({
   navigation
 }) {
+  HTTP.get('account/settings.json?includes_entities=true').then(res => {
+    console.tron(res);
+  }).catch(err => console.tron(err));
+
   return (
     <MainView
       topComponent={() => (
