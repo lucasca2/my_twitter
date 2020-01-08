@@ -13,47 +13,49 @@ import LogoSmall from '/static/Icons/LogoSmall';
 // Services
 import userService from "/services/user";
 import getRealm from "/services/realm";
+import { FlatList } from "react-native";
 
 export default function Home({
   navigation
 }) {
   const [tweets, setTweets] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    async function fetchTimeLine() {
-      const realm = await getRealm();
-      const localTweets = realm.objects('Tweet').map(t => ({ ...t, user: JSON.parse(t.user)}));
-      let timeline = [];
+  async function fetchTimeLine() {
+    setLoading(true);
+    const realm = await getRealm();
+    const localTweets = realm.objects('Tweet').map(t => ({ ...t, user: JSON.parse(t.user)}));
+    let timeline = [];
 
-      try {
-        timeline = await userService.getTimeline();
+    try {
+      timeline = await userService.getTimeline();
+
+      realm.write(() => {
+        const allTweets = realm.objects('Tweet');
+        realm.delete(allTweets);
+      });
+
+      timeline?.slice(0, 10)?.forEach(tweet => {
+        let newTweet = {
+          id: tweet.id,
+          id_str: tweet.id_str,
+          text: tweet.text,
+          user: JSON.stringify(tweet.user),
+        };
 
         realm.write(() => {
-          const allTweets = realm.objects('Tweet');
-          realm.delete(allTweets);
+          realm.create('Tweet', newTweet);
         });
-
-        timeline?.slice(0, 10)?.forEach(tweet => {
-          let newTweet = {
-            id: tweet.id,
-            id_str: tweet.id_str,
-            text: tweet.text,
-            user: JSON.stringify(tweet.user),
-          };
-
-          if(!localTweets.find(t => t.id === newTweet.id)) {
-            realm.write(() => {
-              realm.create('Tweet', newTweet);
-            });
-          }
-        });
-      } catch (err) {
-        timeline = localTweets;
-      }
-
-      setTweets(timeline);
+      });
+    } catch (err) {
+      timeline = localTweets;
     }
 
+    setTweets(timeline);
+    setLoading(false);
+  }
+
+  useEffect(() => {
     fetchTimeLine();
   }, []);
 
@@ -70,7 +72,11 @@ export default function Home({
         />
       )}
     >
-      <Timeline tweets={tweets} />
+      <Timeline
+        onRefresh={fetchTimeLine}
+        refreshing={loading}
+        tweets={tweets}
+      />
     </MainView>
   )
 }

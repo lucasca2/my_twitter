@@ -13,7 +13,9 @@ export default function App() {
     async function fetchUser() {
       const user = await userService.getData();
 
-      await AsyncStorage.setItem('@user', JSON.stringify(user));
+      if(user) {
+        await AsyncStorage.setItem('@user', JSON.stringify(user));
+      }
     }
 
     fetchUser();

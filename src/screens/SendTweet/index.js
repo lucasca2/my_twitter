@@ -23,7 +23,10 @@ export default function SendTweet({
   async function handleSendTweet() {
     if(status) {
       try {
-        await userService.sendTweet({ status })
+        await userService.sendTweet({ status });
+
+        alert('Sent with success');
+        setStatus('');
       } catch (err) {
         alert('Error sending Tweet')
       }

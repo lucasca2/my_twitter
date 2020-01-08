@@ -15,10 +15,12 @@ import {
 } from './styles';
 
 export default function Timeline({
-  tweets
+  tweets,
+  ...props
 }) {
   return (
     <FlatList
+      {...props}
       data={tweets}
       keyExtractor={item => item.id_str}
       renderItem={({ item, index }) => (
