@@ -1,4 +1,3 @@
-import qs from 'qs';
 import { HTTP } from '/config/http';
 
 const User = {
@@ -8,7 +7,7 @@ const User = {
 
       return data;
     } catch (err) {
-      return err;
+      throw err;
     }
   },
 
@@ -18,7 +17,7 @@ const User = {
 
       return data;
     } catch (err) {
-      return err;
+      throw err;
     }
   },
 
@@ -28,7 +27,7 @@ const User = {
 
       return data;
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 };

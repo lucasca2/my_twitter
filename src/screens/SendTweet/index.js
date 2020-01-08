@@ -18,7 +18,7 @@ import Row from "../../components/Row";
 export default function SendTweet({
   navigation
 }) {
-  const [status, setStatus] = useState(null);
+  const [status, setStatus] = useState('');
 
   async function handleSendTweet() {
     if(status) {
