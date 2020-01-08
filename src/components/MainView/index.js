@@ -36,7 +36,10 @@ function MainView({
         hidden={statusBarHidden}
       />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={"padding"} enabled={styles.isIOS && noScroll}>
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{
+          flex: 1,
+          backgroundColor: styles.colors.background
+        }}>
           <StatusBarColor color={statusBarColor}/>
           {topComponent && topComponent()}
           <WrapperScroll

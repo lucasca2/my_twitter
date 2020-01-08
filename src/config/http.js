@@ -45,6 +45,5 @@ HTTP.interceptors.request.use(config => {
 
     return config;
   } catch (err) {
-    console.tron(err);
   }
 });

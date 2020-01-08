@@ -20,18 +20,22 @@ import AsyncStorage from "@react-native-community/async-storage";
 
 
 
-export default function CustomDrawerContentComponent(props) {
+export default function CustomDrawerContentComponent({
+  navigation,
+  ...props
+}) {
   const [currentUser, setCurrentUser] = useState(null);
+
   useEffect(() => {
     async function getUser() {
       const user = JSON.parse(await AsyncStorage.getItem('@user'));
       setCurrentUser(user);
-
-      console.tron(user);
     }
 
-    getUser();
-  }, []);
+    if(navigation?.state?.isDrawerOpen && !currentUser) {
+      getUser();
+    }
+  }, [navigation?.state?.isDrawerOpen]);
   return (
     <Wrapper>
       <SafeAreaView
